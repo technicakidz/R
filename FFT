@@ -1,0 +1,9 @@
+sampling = 4096            # FFTサンプルポイント数
+n = 0:(sampling-1)         # ポイント数分のベクトル
+samplefreq = 44100         # サンプリング周波数(Hz)
+t = n/samplefreq           # 時間軸(s)
+f = n*samplefreq/sampling  # 周波数軸(Hz)
+wave = sin(100*2*pi*t)     # 変換したい波形 この場合は100Hzのサイン波
+plot(t, wave, type="l", xlim=c(0,0.02), ylim=c(-1,1))       # 時間領域でプロット
+spec = abs(fft(wave))^2                       # フーリエ変換, 2乗してパワースペクトル
+plot(f, spec, type="l", xlim = c(20,samplefreq/2), log="xy")  # 周波数領域でプロット
