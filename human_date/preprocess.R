@@ -6,8 +6,16 @@ d <- data.frame(read.table("/Users/yoshidatakayuki/Data/uci_har_hg/train/X_train
 act <- data.frame(read.table("/Users/yoshidatakayuki/Data/uci_har_hg/train/y_train.txt"))
 class <- data.frame(read.table("/Users/yoshidatakayuki/Data/uci_har_hg/train/subject_train.txt"))
 
-class$V1 = factor(class$V1)
 colnames(class)[1] = "label"
+
+colnames(act)[1] = "act"
+#ラベルの連結
+data = cbind(d, class)
+data = cbind(data, act)
+
+class$V1 = factor(class$V1)
+
+#userとlabelの固定ラベルラベル作成 ex.)u1_walk
 
 models = list()
 trControl = trainControl(method = 'repeatedcv',
