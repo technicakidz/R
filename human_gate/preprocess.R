@@ -3,9 +3,9 @@
 library(caret)
 library(doParallel)
 
-d <- data.frame(read.table("/Users/yoshidatakayuki/Data/uci_har_hg/train/X_train.txt"))
-act <- data.frame(read.table("/Users/yoshidatakayuki/Data/uci_har_hg/train/y_train.txt"))
-class <- data.frame(read.table("/Users/yoshidatakayuki/Data/uci_har_hg/train/subject_train.txt"))
+d <- data.frame(read.table("/Users/Data/uci_har/train/X_train.txt"))
+act <- data.frame(read.table("/Users/Data/uci_har/train/y_train.txt"))
+class <- data.frame(read.table("/Users/Data/uci_har/train/subject_train.txt"))
 
 #userとlabelの固定ラベルラベル作成 ex.)u1_walk
 
