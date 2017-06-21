@@ -26,7 +26,14 @@ cl <- makeCluster(detectCores())
 
 registerDoParallel(cl)
 
+#Activityごとの結果
 models = list()
+models2 = list()
+models3 = list()
+models4 = list()
+models5 = list()
+models6 = list()
+
 trControl = trainControl(method = 'repeatedcv',
                          number = 10,
                          repeats = 10)
@@ -34,7 +41,7 @@ trControl = trainControl(method = 'repeatedcv',
 #preProcess = NULL
 print("Making knn model...")
 
-models$knn <- train(d,class$label, method = 'knn',  tuneGrid = expand.grid(k=c(3,5)),
+models$knn <- train(d,class$label, method = 'knn',  tuneGrid = expand.grid(k=c(1,10)),
                     metric = 'Kappa',
                     trControl = trControl)
 
@@ -42,11 +49,19 @@ print("Making lda model...")
 models$lda <- train(d,class$label,method = 'lda',
                     metric = 'Kappa', trControl = trControl)
 
+print("Making rf model...")
+models$lda <- train(d,class$label,method = 'rf', tuneGrid.grid(mtry = 2),
+                    metric = 'Kappa', trControl = trControl)
+
 
 print("Making svmRadial model...")
-models$svmRadial <- train(d, class$label, method = 'svmRadial', tuneGrid = expand.grid(sigma=c(0.014,0.034), C=10),
+models$svmRadial <- train(d, class$label, method = 'svmRadial', tuneGrid = expand.grid(sigma=c(3 ^ (-2:2)), C=10),
                           metric = 'Kappa', trControl = trControl)
 
 stopCluster(cl)
 
 proc.time()-t
+
+#plot
+conf=confusionMatrix()
+levelplot(sweep(x = conf$table, STATS = colSums(conf$table), MARGIN = 2, FUN = '/'), scales=list(x=list(rot=90)), col.regions=gray(100:0/100))
