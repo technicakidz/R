@@ -1,11 +1,11 @@
-#load to data
+32;278;0c#load to data
 #dt:datasets, label:users(30), act:each of activity labels(6)
 library(caret)
 library(doParallel)
+library(nnet)
 
-d <- data.frame(read.table("/Users/Data/uci_har/train/X_train.txt"))
-act <- data.frame(read.table("/Users/Data/uci_har/train/y_train.txt"))
-class <- data.frame(read.table("/Users/Data/uci_har/train/subject_train.txt"))
+d <- data.frame(read.table("/home/deepstation/bsblab/technicakidz/Data/har/Activity1.txt"))
+class <- data.frame(read.table("/home/deepstation/bsblab/technicakidz/Data/har/subject_a1.txt"))
 
 #userとlabelの固定ラベルラベル作成 ex.)u1_walk
 
@@ -63,5 +63,5 @@ stopCluster(cl)
 proc.time()-t
 
 #plot
-conf=confusionMatrix()
+conf=confusionMatrix(models$knn,class%V1)
 levelplot(sweep(x = conf$table, STATS = colSums(conf$table), MARGIN = 2, FUN = '/'), scales=list(x=list(rot=90)), col.regions=gray(100:0/100))
