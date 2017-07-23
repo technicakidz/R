@@ -2,10 +2,10 @@
 #dt:datasets, label:users(30), act:each of activity labels(6)
 library(caret)
 library(doParallel)
+library(e1071)
 
-d <- data.frame(read.table("/Users/Data/uci_har/train/X_train.txt"))
-act <- data.frame(read.table("/Users/Data/uci_har/train/y_train.txt"))
-class <- data.frame(read.table("/Users/Data/uci_har/train/subject_train.txt"))
+d <- data.frame(read.table("/Users/yoshidatakayuki/Data/har_auth/train/Activitry1_train.txt"))
+class <- data.frame(read.table("/Users/yoshidatakayuki/Data/har_auth/test/Yval_A1.txt"))
 
 #userとlabelの固定ラベルラベル作成 ex.)u1_walk
 
@@ -21,9 +21,7 @@ colnames(class)[1] = "label"
 
 #並列化
 t<-proc.time()
-
 cl <- makeCluster(detectCores()) 
-
 registerDoParallel(cl)
 
 #Activityごとの結果
@@ -40,10 +38,8 @@ trControl = trainControl(method = 'repeatedcv',
 
 #preProcess = NULL
 print("Making knn model...")
-
-models$knn <- train(d,class$label, method = 'knn',  tuneGrid = expand.grid(k=c(1,10)),
-                    metric = 'Kappa',
-                    trControl = trControl)
+models$lda <- train(d,class$label,method = 'knn', tuneGrid = expand.grid(k=c(1:10)),
+                    metric = 'Kappa', trControl = trControl)
 
 print("Making lda model...")
 models$lda <- train(d,class$label,method = 'lda',
@@ -59,7 +55,6 @@ models$svmRadial <- train(d, class$label, method = 'svmRadial', tuneGrid = expan
                           metric = 'Kappa', trControl = trControl)
 
 stopCluster(cl)
-
 proc.time()-t
 
 #plot
