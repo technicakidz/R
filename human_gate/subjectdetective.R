@@ -6,55 +6,6 @@ install.packages("caret")
 library(caret)
 library(doParallel)
 library(e1071)
-
-#define dataset
-d <- data.frame(read.table("/Users/username/Data/USC-HAD_a1/a1.txt"))
-class <- data.frame(read.table("/Users/username/Data/USC-HAD_a1/subject.txt"))
-
-#userとlabelの固定ラベルラベル作成 ex.)u1_walk
-
-#colnames(class)[1] = "label"
-
-#colnames(act)[1] = "act"
-#ラベルの連結
-#data = cbind(d, class)
-#data = cbind(data, act)
-
-class$V1 = factor(class$V1)
-colnames(class)[1] = "label"
-#並列化
-t<-proc.time()
-cl <- makeCluster(detectCores())
-registerDoParallel(cl)
-
-tmp = list()
-#Activityごとの結果
-models = list()
-models2 = list()
-models3 = list()
-models4 = list()
-models5 = list()
-models6 = list()
-
-#USC-HAD
-models_knn = list()
-models_lda = list()
-models_rf = list()
-models_j48 = list()
-models_svm = list()
-
-
-trControl = trainControl(method = 'repeatedcv',
-                         number = 10,
--uuu:---F1  preprocess.R   Top L1     (Fundamental)-------------------------------------------------------------------------------------------------------------------------------
-Loading image...done#load to data
-#dt:datasets, label:users(30), act:each of activity labels(6)
-install.packages("rlang")
-install.packages("ggplot2")
-install.packages("caret")
-library(caret)
-library(doParallel)
-library(e1071)
 library(nnet)
 
 #define dataset
