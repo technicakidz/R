@@ -7,11 +7,9 @@ library(caret)
 library(doParallel)
 library(e1071)
 
-d <- data.frame(read.table("/Users/yoshidatakayuki/Data/har/data100.txt"))
-class <- data.frame(read.table("/Users/yoshidatakayuki/Data/har/label100.txt"))
-#other dataset
-d <- data.frame(read.table("/Users/yoshidatakayuki/Data/USC-HAD_a1/a1.txt"))
-class <- data.frame(read.table("/Users/yoshidatakayuki/Data/USC-HAD_a1/subject.txt"))
+#define dataset
+d <- data.frame(read.table("/Users/username/Data/USC-HAD_a1/a1.txt"))
+class <- data.frame(read.table("/Users/username/Data/USC-HAD_a1/subject.txt"))
 
 #userとlabelの固定ラベルラベル作成 ex.)u1_walk
 
