@@ -4,8 +4,8 @@ library(doParallel)
 library(e1071)
 library(nnet)
 
-d <- data.frame(read.table("/home/deepstation/bsblab/technicakidz/Data/har/Activity1.txt"))
-class <- data.frame(read.table("/home/deepstation/bsblab/technicakidz/Data/har/subject_a1.txt"))
+d <- data.frame(read.table("/home/deepstation/bsblab/technicakidz/Data/har/Activity2.txt"))
+class <- data.frame(read.table("/home/deepstation/bsblab/technicakidz/Data/har/subject_a2.txt"))
 
 #userとlabelの固定ラベルラベル作成 ex.)u1_walk
 
@@ -40,12 +40,12 @@ trControl = trainControl(method = 'repeatedcv',
 
 #preProcess = NULL
 print("Making knn model...")
-models$knn <- train(d,class$label, method = 'knn',  tuneGrid = expand.grid(k=c(1:10)),
+models2$knn <- train(d,class$label, method = 'knn',  tuneGrid = expand.grid(k=c(1:10)),
                     metric = 'Kappa',
                     trControl = trControl)
 
 print("Making lda model...")
-models$lda <- train(d,class$label,method = 'lda',
+models2$lda <- train(d,class$label,method = 'lda',
                     metric = 'Kappa', trControl = trControl)
 
 print("Making rf model...")
@@ -53,7 +53,7 @@ dt$rf <- train(d,class$label,method = 'rf', tuneGrid.grid(mtry = 2),
                     metric = 'Kappa', trControl = trControl)
 
 print("Making svmRadial model...")
-models$svmRadial <- train(d, class$label, method = 'svmRadial', tuneGrid = expand.grid(sigma=c(10 ^ (-5:5)), C=10),
+models2$svmRadial <- train(d, class$label, method = 'svmRadial', tuneGrid = expand.grid(sigma=c(10 ^ (-5:5)), C=10),
                           metric = 'Kappa', trControl = trControl)
 
 stopCluster(cl)
