@@ -1,25 +1,18 @@
-#load to data
-#dt:datasets, label:users(30), act:each of activity labels(6)
+install.packages("devtools")
+devtools::install_github("topepo/caret/pkg/caret")
+
 install.packages("rlang")
 install.packages("ggplot2")
+install.packages("caret")
 install.packages("caret")
 library(caret)
 library(doParallel)
 library(e1071)
 library(nnet)
 
-#define dataset
+#define d&class(dataset,label)
 d <- data.frame(read.table("/Users/username/Data/USC-HAD_a1/a1.txt"))
 class <- data.frame(read.table("/Users/username/Data/USC-HAD_a1/subject.txt"))
-
-#userとlabelの固定ラベルラベル作成 ex.)u1_walk
-
-#colnames(class)[1] = "label"
-
-#colnames(act)[1] = "act"
-#ラベルの連結
-#data = cbind(d, class)
-#data = cbind(data, act)
 
 class$V1 = factor(class$V1)
 colnames(class)[1] = "label"
@@ -49,6 +42,10 @@ trControl = trainControl(method = 'repeatedcv',
                          number = 10,
                          repeats = 10)
 
+print("Making nnet model...")
+Umodels_nnet_a1$nnet <- train(d, class$label, method = 'ldannet', tuneGrid = expand.grid(size=c(1:15), decay=seq(0.1,1,0.1)),
+                            metric = 'Kappa', trControl = trControl)
+
 #preProcess = NULL
 print("Making knn model...")
 Umodels_knn_a1$knn <- train(d, class$label, method = 'knn', tuneGrid = expand.grid(k=c(1:10)),
@@ -76,4 +73,4 @@ proc.time()-t
 
 #plot
 conf=confusionMatrix()
-levelplot(sweep(x = conf$table, STATS = colSums(conf$table), MARGIN = 2, FUN = '/'), scales=list(x=list(rot=90)), col.regions=gray(100:0/100))
+levelplot(xlab = "Prediction labels",ylab = "True labels", sweep(x = conf$table, STATS = colSums(conf$table), MARGIN = 2, FUN = '/'), scales=list(x=list(rot=90)), col.regions=gray(100:0/100))
