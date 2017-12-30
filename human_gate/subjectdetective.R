@@ -46,25 +46,25 @@ print("Making nnet model...")
 Umodels_nnet_a1$nnet <- train(d, class$label, method = 'ldannet', tuneGrid = expand.grid(size=c(1:15), decay=seq(0.1,1,0.1)),
                             metric = 'Kappa', trControl = trControl)
 
-#preProcess = NULL
+#preProcess = center,scale
 print("Making knn model...")
-Umodels_knn_a1$knn <- train(d, class$label, method = 'knn', tuneGrid = expand.grid(k=c(1:10)),
+Umodels_knn_a1$knn <- train(d, class$label, method = 'knn', tuneGrid = expand.grid(k=c(1:10)), preprocess = c('center','scale'),
                     metric = 'Kappa', trControl = trControl)
 
 print("Making lda model...")
-Umodels_lda_a1$lda <- train(d, class$label, method = 'lda',
+Umodels_lda_a1$lda <- train(d, class$label, method = 'lda', preprocess = c('center','scale'),
                     metric = 'Kappa', trControl = trControl)
 
 print("Making J48 model...")
-Umodels_j48_a1$rpart <- train(d, class$label, method = 'J48',
+Umodels_j48_a1$rpart <- train(d, class$label, method = 'J48', preprocess = c('center','scale'),
                     metric = 'Kappa', trControl = trControl)
 
 print("Making rf model...")
-Umodels_rf_a1$rf <- train(d, class$label, method = 'rf', tuneGrid = expand.grid(mtry = 2),
+Umodels_rf_a1$rf <- train(d, class$label, method = 'rf', tuneGrid = expand.grid(mtry = 2), preprocess = c('center','scale'),
                     metric = 'Kappa', trControl = trControl)
 
 print("Making svmRadial model...")
-Umodels_svm_a1$svmRadial <- train(d, class$label, method = 'svmRadial', tuneGrid = expand.grid(sigma=c(3 ^ (-2:2)), C=10),
+Umodels_svm_a1$svmRadial <- train(d, class$label, method = 'svmRadial', tuneGrid = expand.grid(sigma=c(3 ^ (-2:2)), C=10), preprocess = c('center','scale'),
                           metric = 'Kappa', trControl = trControl)
 
 stopCluster(cl)
